@@ -443,7 +443,7 @@ abstract class BaseGenerator extends \yii\gii\Generator
         if ($multiple) {
             $key = Inflector::pluralize($key);
         }
-        $name = $rawName = Inflector::id2camel($key, '_');
+        $name = $rawName = Inflector::id2camel(Inflector::camel2id($key));
         $i = 0;
         while (isset($baseModel) && $baseModel->hasProperty(lcfirst($name))) {
             $name = $rawName . ($i++);
