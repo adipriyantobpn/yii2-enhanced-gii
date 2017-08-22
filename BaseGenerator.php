@@ -434,10 +434,16 @@ abstract class BaseGenerator extends \yii\gii\Generator
             $baseModel = new $baseClass();
         }
 
-        if (!empty($key) && substr_compare($key, 'id', -2, 2, true) === 0 && strcasecmp($key, 'id')) {
-            $key = rtrim(substr($key, 0, -2), '_');
-        } else if (!empty($key) && substr_compare($key, 'id', 0, 2, true) === 0 && strcasecmp($key, 'id')) {
-            $key = ltrim(substr($key, 2, strlen($key)), '_');
+        $string_replacements = [
+            'id',
+            'kode',
+        ];
+        foreach ($string_replacements as $str) {
+            if (!empty($key) && substr_compare($key, $str, strlen($str)*-1, strlen($str), true) === 0 && strcasecmp($key, $str)) {
+                $key = rtrim(substr($key, 0, strlen($str)*-1), '_');
+            } else if (!empty($key) && substr_compare($key, $str, 0, strlen($str), true) === 0 && strcasecmp($key, $str)) {
+                $key = ltrim(substr($key, strlen($str), strlen($key)), '_');
+            }
         }
 
         if ($multiple) {
