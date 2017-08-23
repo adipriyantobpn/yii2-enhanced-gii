@@ -387,6 +387,20 @@ abstract class BaseGenerator extends \yii\gii\Generator
             return $this->classNames[$tableName];
         }
 
+        $tableName = $tableName == 'DO' ? 'DELV_ORDER' : $tableName;
+        switch ($tableName) {
+            case 'DO':
+                $tableName = 'DELV_ORDER';
+                break;
+            case 'DO_LINE':
+                $tableName = 'DELV_ORDER_LINE';
+                break;
+            case 'DO_LINE_E':
+                $tableName = 'DELV_ORDER_LINE_E';
+                break;
+            default:
+                break;
+        }
         $schemaName = '';
         $fullTableName = $tableName;
         if (($pos = strrpos($tableName, '.')) !== false) {
@@ -414,7 +428,7 @@ abstract class BaseGenerator extends \yii\gii\Generator
                 break;
             }
         }
-        return $this->classNames[$fullTableName] = Inflector::id2camel($schemaName . $className, '_');
+        return $this->classNames[$fullTableName] = Inflector::id2camel(Inflector::camel2id($schemaName . $className));
     }
 
     /**
@@ -437,6 +451,7 @@ abstract class BaseGenerator extends \yii\gii\Generator
         $string_replacements = [
             'id',
             'kode',
+            'code',
         ];
         foreach ($string_replacements as $str) {
             if (!empty($key) && substr_compare($key, $str, strlen($str)*-1, strlen($str), true) === 0 && strcasecmp($key, $str)) {
