@@ -646,7 +646,9 @@ if (array_key_exists($attribute, $fk) && $attribute) {
                     {return NULL;}
                 },
                 'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \\yii\\helpers\\ArrayHelper::map(\\$this->nsModel\\$rel[1]::find()->asArray()->all(), '{$rel[self::REL_PRIMARY_KEY]}', '$labelCol'),
+                'filter' => \\yii\\helpers\\ArrayHelper::map(\\$this->nsModel\\$rel[1]::find()->where([
+                    '{$rel[self::REL_PRIMARY_KEY]}' => $this->modelClass::find()->select(['$attribute'])->distinct()->asArray()->column()
+                ])->asArray()->all(), '{$rel[self::REL_PRIMARY_KEY]}', '$labelCol'),
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
@@ -662,7 +664,9 @@ if (array_key_exists($attribute, $fk) && $attribute) {
                     return \$model->$rel[7]->$labelCol;                   
                 },
                 'filterType' => GridView::FILTER_SELECT2,
-                'filter' => \\yii\\helpers\\ArrayHelper::map(\\$this->nsModel\\$rel[1]::find()->asArray()->all(), '{$rel[self::REL_PRIMARY_KEY]}', '$labelCol'),
+                'filter' => \\yii\\helpers\\ArrayHelper::map(\\$this->nsModel\\$rel[1]::find()->where([
+                    '{$rel[self::REL_PRIMARY_KEY]}' => $this->modelClass::find()->select(['$attribute'])->distinct()->asArray()->column()
+                ])->asArray()->all(), '{$rel[self::REL_PRIMARY_KEY]}', '$labelCol'),
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
