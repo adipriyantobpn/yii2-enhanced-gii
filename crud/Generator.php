@@ -1106,10 +1106,10 @@ if (array_key_exists($attribute, $fk) && $attribute) {
                 case Schema::TYPE_TIME:
                 case Schema::TYPE_DATETIME:
                 case Schema::TYPE_TIMESTAMP:
-                    $hashConditions[] = "'{$column}' => \$this->{$column},";
+                    $hashConditions[] = "'[['.self::ALIAS.'.{$column}]]' => \$this->{$column},";
                     break;
                 default:
-                    $likeConditions[] = "->andFilterWhere(['like', '{$column}', \$this->{$column}])";
+                    $likeConditions[] = "->andFilterWhere(['like', '[['.self::ALIAS.'.{$column}]]', \$this->{$column}])";
                     break;
             }
         }
